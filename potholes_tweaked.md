@@ -2,7 +2,7 @@
 
 
 <dl>
-<dt>In [2]:</dt>
+<dt>In [1]:</dt>
 <dd>
 <pre><code data-trim>
 %load_ext rpy2.ipython
@@ -16,7 +16,7 @@ Use the prefix `%%R` in a cell and have the rest of the cell as R code.
 
 
 <dl>
-<dt>In [4]:</dt>
+<dt>In [2]:</dt>
 <dd>
 <pre><code data-trim>
 %%R
@@ -50,7 +50,7 @@ R.version
 
 
 <dl>
-<dt>In [6]:</dt>
+<dt>In [3]:</dt>
 <dd>
 <pre><code data-trim>
 %%R
@@ -98,7 +98,7 @@ anova(glm.D93)
 
 
 <dl>
-<dt>In [8]:</dt>
+<dt>In [4]:</dt>
 <dd>
 <pre><code data-trim>
 FILENAME = "Pothole_Repair_Requests.csv"
@@ -108,7 +108,7 @@ FILENAME = "Pothole_Repair_Requests.csv"
 
 
 <dl>
-<dt>In [10]:</dt>
+<dt>In [5]:</dt>
 <dd>
 <pre><code data-trim>
 %%R -i FILENAME
@@ -124,7 +124,7 @@ print(FILENAME)
 
 
 <dl>
-<dt>In [12]:</dt>
+<dt>In [6]:</dt>
 <dd>
 <pre><code data-trim>
 %%R -o result
@@ -143,7 +143,7 @@ result <- 2*pi
 
 
 <dl>
-<dt>In [14]:</dt>
+<dt>In [7]:</dt>
 <dd>
 <pre><code data-trim>
 import pandas
@@ -158,7 +158,7 @@ pdataf = pandas.read_csv(FILENAME)
 
 
 <dl>
-<dt>In [16]:</dt>
+<dt>In [8]:</dt>
 <dd>
 <pre><code data-trim>
 %%R
@@ -173,7 +173,7 @@ dataf <- read.csv(FILENAME)
 
 
 <dl>
-<dt>In [18]:</dt>
+<dt>In [9]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.packages import importr
@@ -186,7 +186,7 @@ utils = importr('utils')
 
 
 <dl>
-<dt>In [20]:</dt>
+<dt>In [10]:</dt>
 <dd>
 <pre><code data-trim>
 dataf = utils.read_csv(FILENAME)
@@ -196,7 +196,7 @@ dataf = utils.read_csv(FILENAME)
 
 
 <dl>
-<dt>In [22]:</dt>
+<dt>In [11]:</dt>
 <dd>
 <pre><code data-trim>
 print(dataf.colnames)
@@ -224,7 +224,7 @@ Build graphics with
 
 
 <dl>
-<dt>In [24]:</dt>
+<dt>In [12]:</dt>
 <dd>
 <pre><code data-trim>
 %%R -i dataf
@@ -245,7 +245,7 @@ print(p)
 
 
 <dl>
-<dt>In [26]:</dt>
+<dt>In [13]:</dt>
 <dd>
 <pre><code data-trim>
 %%R -i dataf
@@ -268,7 +268,7 @@ print(p)
 
 
 <dl>
-<dt>In [28]:</dt>
+<dt>In [14]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.lib import ggplot2
@@ -283,7 +283,7 @@ import rpy2.ipython.ggplot as igp
 
 
 <dl>
-<dt>In [30]:</dt>
+<dt>In [15]:</dt>
 <dd>
 <pre><code data-trim>
 gp = ggplot2
@@ -305,7 +305,7 @@ type(p)
 
 
 <dl>
-<dt>In [32]:</dt>
+<dt>In [16]:</dt>
 <dd>
 <pre><code data-trim>
 from IPython import display
@@ -344,7 +344,7 @@ dpi = png_formatter.for_type(ggplot2.GGPlot, display_ggplot2)
 
 
 <dl>
-<dt>In [34]:</dt>
+<dt>In [17]:</dt>
 <dd>
 <pre><code data-trim>
 p
@@ -363,7 +363,7 @@ p
 
 
 <dl>
-<dt>In [36]:</dt>
+<dt>In [18]:</dt>
 <dd>
 <pre><code data-trim>
 p + gp.theme_gray(base_size=20)
@@ -382,7 +382,7 @@ p + gp.theme_gray(base_size=20)
 
 
 <dl>
-<dt>In [38]:</dt>
+<dt>In [19]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(dataf) + 
@@ -404,7 +404,7 @@ p
 
 
 <dl>
-<dt>In [40]:</dt>
+<dt>In [20]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(dataf) + 
@@ -428,7 +428,7 @@ p
 
 
 <dl>
-<dt>In [42]:</dt>
+<dt>In [21]:</dt>
 <dd>
 <pre><code data-trim>
 p + gp.scale_y_sqrt()
@@ -449,7 +449,7 @@ p + gp.scale_y_sqrt()
 
 
 <dl>
-<dt>In [44]:</dt>
+<dt>In [22]:</dt>
 <dd>
 <pre><code data-trim>
 next(dataf[5].iter_labels())
@@ -468,7 +468,7 @@ next(dataf[5].iter_labels())
 
 
 <dl>
-<dt>In [46]:</dt>
+<dt>In [23]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.lib import dplyr
@@ -480,7 +480,7 @@ from rpy2.robjects.lib import dplyr
 
 
 <dl>
-<dt>In [48]:</dt>
+<dt>In [24]:</dt>
 <dd>
 <pre><code data-trim>
 ddataf = dplyr.DataFrame(dataf)
@@ -492,7 +492,7 @@ ddataf = dplyr.DataFrame(dataf)
 
 
 <dl>
-<dt>In [50]:</dt>
+<dt>In [25]:</dt>
 <dd>
 <pre><code data-trim>
 import re
@@ -515,7 +515,7 @@ def extract_coords(address):
 
 
 <dl>
-<dt>In [52]:</dt>
+<dt>In [26]:</dt>
 <dd>
 <pre><code data-trim>
 extract_coords(next(ddataf[5].iter_labels()))
@@ -534,7 +534,7 @@ extract_coords(next(ddataf[5].iter_labels()))
 
 
 <dl>
-<dt>In [54]:</dt>
+<dt>In [27]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.vectors import FloatVector
@@ -560,7 +560,7 @@ ddataf = (ddataf.
 
 
 <dl>
-<dt>In [56]:</dt>
+<dt>In [28]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf) + 
@@ -584,7 +584,7 @@ p
 
 
 <dl>
-<dt>In [58]:</dt>
+<dt>In [29]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"')) + 
@@ -608,7 +608,7 @@ p
 
 
 <dl>
-<dt>In [60]:</dt>
+<dt>In [30]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"',
@@ -632,7 +632,7 @@ p
 
 
 <dl>
-<dt>In [62]:</dt>
+<dt>In [31]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"')) + 
@@ -658,7 +658,7 @@ p
 
 
 <dl>
-<dt>In [64]:</dt>
+<dt>In [32]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"')) + 
@@ -681,7 +681,7 @@ p
 
 
 <dl>
-<dt>In [66]:</dt>
+<dt>In [33]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status %in% c("Closed", "Resolved")')) + 
@@ -706,7 +706,7 @@ p
 
 
 <dl>
-<dt>In [68]:</dt>
+<dt>In [34]:</dt>
 <dd>
 <pre><code data-trim>
 extract_weekday = """
@@ -731,7 +731,7 @@ ddataf = (ddataf.
 
 
 <dl>
-<dt>In [70]:</dt>
+<dt>In [35]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf) + 
