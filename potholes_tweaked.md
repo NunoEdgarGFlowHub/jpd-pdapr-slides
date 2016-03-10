@@ -1,4 +1,8 @@
-# R "magic": R in iPython
+
+## R "magic"
+
+- extension to the jupyter notebook
+- defined the "magic" `%%R` and `%R`
 
 
 <dl>
@@ -12,7 +16,9 @@
 
 ---
 
-Use the prefix `%%R` in a cell and have the rest of the cell as R code.
+- R code can be mixed with Python code
+- Cells with R code are prefixed with `%%R`
+- The R output is returned
 
 
 <dl>
@@ -20,7 +26,9 @@ Use the prefix `%%R` in a cell and have the rest of the cell as R code.
 <dd>
 <pre><code data-trim>
 %%R
+
 R.version
+
 </code></pre>
 </dd>
 </dl>
@@ -45,8 +53,6 @@ R.version
 
 
 ---
-
-# Longer R code
 
 
 <dl>
@@ -94,7 +100,7 @@ anova(glm.D93)
 
 ---
 
-## Communicating with the outside world (Python)
+### Communicating with the outside world (Python)
 
 
 <dl>
@@ -137,6 +143,14 @@ result <- 2*pi
 
 # Data table
 
+- Running code in 2 languages is nice...
+- ...but code objects should be passed back and forth
+- The "data table" is:
+  * a high-level data structure
+  * common (in concept) across Python, R (and SQL, etc...)
+
+---
+
 ## Reading from a CSV file
 
 ### Pandas
@@ -146,6 +160,7 @@ result <- 2*pi
 <dt>In [7]:</dt>
 <dd>
 <pre><code data-trim>
+# FILENAME = "Pothole_Repair_Requests.csv"
 import pandas
 pdataf = pandas.read_csv(FILENAME)
 </code></pre>
@@ -161,11 +176,25 @@ pdataf = pandas.read_csv(FILENAME)
 <dt>In [8]:</dt>
 <dd>
 <pre><code data-trim>
-%%R
+%%R -i FILENAME
 dataf <- read.csv(FILENAME)
+str(dataf)
 </code></pre>
 </dd>
 </dl>
+
+
+    'data.frame':	6161 obs. of  8 variables:
+     $ Request.ID    : Factor w/ 6160 levels "","REQ194189",..: 2 3 4 5 6 7 8 9 10 11 ...
+     $ Status        : Factor w/ 5 levels "","Assigned",..: 3 3 3 3 3 3 3 3 3 3 ...
+     $ Action.Type   : Factor w/ 2 levels "","Repair Pothole in Street": 2 2 2 2 2 2 2 2 2 2 ...
+     $ Date.Submitted: Factor w/ 2670 levels "","01/01/2013 12:00:00 AM",..: 69 69 69 69 69 69 69 69 81 81 ...
+     $ Date.Completed: Factor w/ 1922 levels "","01/02/2012 12:00:00 AM",..: 55 55 55 55 55 55 55 55 74 74 ...
+     $ Address       : Factor w/ 3558 levels "","1 Aberdeen Ave\nCambridge, MA\n(42.37734449700048, -71.14744958699964)",..: 3154 3500 3094 3448 2247 3398 2571 3451 3197 3400 ...
+     $ Platform      : Factor w/ 8 levels "","0","Android",..: 1 1 1 1 1 1 1 1 1 1 ...
+     $ Submitted.By  : Factor w/ 48 levels "","anagle","apedro",..: 7 7 7 7 7 7 7 7 7 7 ...
+
+
 
 ---
 
@@ -214,45 +243,37 @@ print(dataf.colnames)
 # GGplot2 graphics
 
 Build graphics with
-- "layers"
-- "mappings"
-
----
-
-
-## R "magic"
+- "mappings": associate "columns" with visual dimensions
+- "layers"  : additive declarations to build a figure
 
 
 <dl>
 <dt>In [12]:</dt>
 <dd>
 <pre><code data-trim>
-%%R -i dataf
-library(ggplot2)
-
-p = ggplot(dataf) + 
-    geom_bar(aes(x=Status))
-print(p)    
+%%R
+options(bitmapType="cairo")
 </code></pre>
 </dd>
 </dl>
 
-
-![png](potholes_files/potholes_20_0.png)
-
-
 ---
+
+### First in R:
+
+Map the column `Status` to the visual dimension `x`.
 
 
 <dl>
 <dt>In [13]:</dt>
 <dd>
 <pre><code data-trim>
-%%R -i dataf
+%%R -i dataf -h 300
+#The height of the figure is specified with "-h 300"
 library(ggplot2)
 
-p = ggplot2::ggplot(dataf) + 
-    ggplot2::geom_bar(ggplot2::aes(x=Status))
+p = ggplot(dataf) +
+    geom_bar(aes(x=Status))
 print(p)
 </code></pre>
 </dd>
@@ -264,11 +285,91 @@ print(p)
 
 ---
 
-## R from Python
+- Map the column `Status` to the visual dimension `x`.
+- Map the column `Platform` to the visual dimension `y`.
 
 
 <dl>
 <dt>In [14]:</dt>
+<dd>
+<pre><code data-trim>
+%%R -i dataf -h 300
+p = ggplot(dataf) +
+    geom_jitter(aes(x=Status, y=Platform))
+print(p)
+</code></pre>
+</dd>
+</dl>
+
+
+![png](potholes_files/potholes_24_0.png)
+
+
+---
+
+- Map the column `Status` to the visual dimension `x`.
+- Map the column `Platform` to the visual dimension `y`.
+- Map the column `Action.Type` to the visual dimension `color`.
+
+
+<dl>
+<dt>In [15]:</dt>
+<dd>
+<pre><code data-trim>
+%%R -i dataf -h 300
+p = ggplot(dataf) +
+    geom_jitter(aes(x=Status, y=Platform, color=Action.Type))
+print(p)
+</code></pre>
+</dd>
+</dl>
+
+
+![png](potholes_files/potholes_26_0.png)
+
+
+---
+
+## Interlude: namespaces in R
+
+
+<dl>
+<dt>In [16]:</dt>
+<dd>
+<pre><code data-trim>
+%%R -i dataf -h 300
+library(ggplot2)
+
+p = ggplot2::ggplot(dataf) +
+    ggplot2::geom_bar(ggplot2::aes(x=Status))
+print(p)
+</code></pre>
+</dd>
+</dl>
+
+
+![png](potholes_files/potholes_28_0.png)
+
+
+---
+
+## R from Python
+
+
+<dl>
+<dt>In [17]:</dt>
+<dd>
+<pre><code data-trim>
+%%R
+p = ggplot2::ggplot(dataf) +
+    ggplot2::geom_bar(ggplot2::aes(x=Status))
+</code></pre>
+</dd>
+</dl>
+
+
+<dl>
+<dt>In [18]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.lib import ggplot2
@@ -277,17 +378,13 @@ import rpy2.ipython.ggplot as igp
 </dd>
 </dl>
 
-    /home/laurent/Desktop/software/python/py35_env/lib/python3.5/site-packages/rpy2-2.8.0.dev0-py3.5-linux-x86_64.egg/rpy2/robjects/lib/ggplot2.py:59: UserWarning: This was designed againt ggplot2 version 2.0.0 but you have 2.1.0
-      warnings.warn('This was designed againt ggplot2 version %s but you have %s' % (TARGET_VERSION, ggplot2.__version__))
-
-
 
 <dl>
-<dt>In [15]:</dt>
+<dt>In [19]:</dt>
 <dd>
 <pre><code data-trim>
 gp = ggplot2
-p = (gp.ggplot(dataf) + 
+p = (gp.ggplot(dataf) +
      gp.geom_bar(gp.aes_string(x='Status')))
 type(p)
 </code></pre>
@@ -305,7 +402,7 @@ type(p)
 
 
 <dl>
-<dt>In [16]:</dt>
+<dt>In [20]:</dt>
 <dd>
 <pre><code data-trim>
 from IPython import display
@@ -318,8 +415,8 @@ def display_ggplot2(gg, width=800, height=400):
     """ Hook to render ggplot2 figures"""
     fn = tempfile.mktemp()
     try:
-        robjects.r("png")(fn, type="cairo-png", 
-                          width=width, height=height, 
+        robjects.r("png")(fn, type="cairo-png",
+                          width=width, height=height,
                           antialias="subpixel")
         robjects.r("print")(gg)
         robjects.r("dev.off()")
@@ -344,7 +441,7 @@ dpi = png_formatter.for_type(ggplot2.GGPlot, display_ggplot2)
 
 
 <dl>
-<dt>In [17]:</dt>
+<dt>In [21]:</dt>
 <dd>
 <pre><code data-trim>
 p
@@ -355,7 +452,7 @@ p
 
 
 
-![png](potholes_files/potholes_29_0.png)
+![png](potholes_files/potholes_36_0.png)
 
 
 
@@ -363,7 +460,7 @@ p
 
 
 <dl>
-<dt>In [18]:</dt>
+<dt>In [22]:</dt>
 <dd>
 <pre><code data-trim>
 p + gp.theme_gray(base_size=20)
@@ -374,7 +471,7 @@ p + gp.theme_gray(base_size=20)
 
 
 
-![png](potholes_files/potholes_31_0.png)
+![png](potholes_files/potholes_38_0.png)
 
 
 
@@ -382,10 +479,10 @@ p + gp.theme_gray(base_size=20)
 
 
 <dl>
-<dt>In [19]:</dt>
+<dt>In [23]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(dataf) + 
+p = (gp.ggplot(dataf) +
      gp.geom_bar(gp.aes_string(x='Platform')) +
      gp.theme_gray(base_size=20))
 p
@@ -396,7 +493,7 @@ p
 
 
 
-![png](potholes_files/potholes_33_0.png)
+![png](potholes_files/potholes_40_0.png)
 
 
 
@@ -404,14 +501,14 @@ p
 
 
 <dl>
-<dt>In [20]:</dt>
+<dt>In [24]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(dataf) + 
+p = (gp.ggplot(dataf) +
      gp.geom_bar(gp.aes_string(x='Platform')) +
      gp.facet_grid('~Status') +
-     gp.theme(**{'axis.text.x': gp.element_text(angle = 90, hjust = 1)}) +
-     gp.theme_gray(base_size=20))
+     gp.theme_gray(base_size=20) +
+     gp.theme(**{'axis.text.x': gp.element_text(angle = 90, hjust = 1)}))
 p
 </code></pre>
 </dd>
@@ -420,7 +517,7 @@ p
 
 
 
-![png](potholes_files/potholes_35_0.png)
+![png](potholes_files/potholes_42_0.png)
 
 
 
@@ -428,7 +525,7 @@ p
 
 
 <dl>
-<dt>In [21]:</dt>
+<dt>In [25]:</dt>
 <dd>
 <pre><code data-trim>
 p + gp.scale_y_sqrt()
@@ -439,7 +536,7 @@ p + gp.scale_y_sqrt()
 
 
 
-![png](potholes_files/potholes_37_0.png)
+![png](potholes_files/potholes_44_0.png)
 
 
 
@@ -449,7 +546,7 @@ p + gp.scale_y_sqrt()
 
 
 <dl>
-<dt>In [22]:</dt>
+<dt>In [26]:</dt>
 <dd>
 <pre><code data-trim>
 next(dataf[5].iter_labels())
@@ -468,7 +565,7 @@ next(dataf[5].iter_labels())
 
 
 <dl>
-<dt>In [23]:</dt>
+<dt>In [27]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.lib import dplyr
@@ -480,7 +577,7 @@ from rpy2.robjects.lib import dplyr
 
 
 <dl>
-<dt>In [24]:</dt>
+<dt>In [28]:</dt>
 <dd>
 <pre><code data-trim>
 ddataf = dplyr.DataFrame(dataf)
@@ -492,7 +589,7 @@ ddataf = dplyr.DataFrame(dataf)
 
 
 <dl>
-<dt>In [25]:</dt>
+<dt>In [29]:</dt>
 <dd>
 <pre><code data-trim>
 import re
@@ -515,7 +612,7 @@ def extract_coords(address):
 
 
 <dl>
-<dt>In [26]:</dt>
+<dt>In [30]:</dt>
 <dd>
 <pre><code data-trim>
 extract_coords(next(ddataf[5].iter_labels()))
@@ -534,7 +631,7 @@ extract_coords(next(ddataf[5].iter_labels()))
 
 
 <dl>
-<dt>In [27]:</dt>
+<dt>In [31]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.vectors import FloatVector
@@ -560,10 +657,10 @@ ddataf = (ddataf.
 
 
 <dl>
-<dt>In [28]:</dt>
+<dt>In [32]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(ddataf) + 
+p = (gp.ggplot(ddataf) +
      gp.geom_hex(gp.aes_string(x='lat', y='long'), bins=50) +
      gp.scale_fill_continuous(trans="sqrt") +
      gp.theme_gray(base_size=20) +
@@ -576,7 +673,7 @@ p
 
 
 
-![png](potholes_files/potholes_51_0.png)
+![png](potholes_files/potholes_58_0.png)
 
 
 
@@ -584,10 +681,10 @@ p
 
 
 <dl>
-<dt>In [29]:</dt>
+<dt>In [33]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(ddataf.filter('Status == "Closed"')) + 
+p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
      gp.geom_density(gp.aes_string(x='days_to_fix')) +
      gp.facet_grid('~Status') +
      gp.scale_x_sqrt() +
@@ -600,7 +697,7 @@ p
 
 
 
-![png](potholes_files/potholes_53_0.png)
+![png](potholes_files/potholes_60_0.png)
 
 
 
@@ -608,11 +705,11 @@ p
 
 
 <dl>
-<dt>In [30]:</dt>
+<dt>In [34]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"',
-                             'days_to_fix < 100')) + 
+                             'days_to_fix < 100')) +
      gp.geom_histogram(gp.aes_string(x='days_to_fix'), bins=100) +
      gp.facet_grid('~Status') +
      gp.theme(**{'legend.position': 'top'}))
@@ -624,7 +721,7 @@ p
 
 
 
-![png](potholes_files/potholes_55_0.png)
+![png](potholes_files/potholes_62_0.png)
 
 
 
@@ -632,10 +729,10 @@ p
 
 
 <dl>
-<dt>In [31]:</dt>
+<dt>In [35]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(ddataf.filter('Status == "Closed"')) + 
+p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
      gp.geom_point(gp.aes_string(x='lat', y='long',
                                  color='cut(days_to_fix, c(0,1,5,30,60,1500))'),
                   size=1) +
@@ -650,7 +747,7 @@ p
 
 
 
-![png](potholes_files/potholes_57_0.png)
+![png](potholes_files/potholes_64_0.png)
 
 
 
@@ -658,10 +755,10 @@ p
 
 
 <dl>
-<dt>In [32]:</dt>
+<dt>In [36]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(ddataf.filter('Status == "Closed"')) + 
+p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
      gp.geom_histogram(gp.aes_string(x='date_completed'), bins=30) +
      gp.facet_grid('~Status') +
      gp.theme(**{'legend.position': 'top'}))
@@ -673,7 +770,7 @@ p
 
 
 
-![png](potholes_files/potholes_59_0.png)
+![png](potholes_files/potholes_66_0.png)
 
 
 
@@ -681,10 +778,10 @@ p
 
 
 <dl>
-<dt>In [33]:</dt>
+<dt>In [37]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(ddataf.filter('Status %in% c("Closed", "Resolved")')) + 
+p = (gp.ggplot(ddataf.filter('Status %in% c("Closed", "Resolved")')) +
      gp.geom_hex(gp.aes_string(x='date_submitted', y='date_completed')) +
      gp.facet_grid('~Status') +
      gp.scale_fill_continuous(trans="log") +
@@ -698,7 +795,7 @@ p
 
 
 
-![png](potholes_files/potholes_61_0.png)
+![png](potholes_files/potholes_68_0.png)
 
 
 
@@ -706,7 +803,7 @@ p
 
 
 <dl>
-<dt>In [34]:</dt>
+<dt>In [38]:</dt>
 <dd>
 <pre><code data-trim>
 extract_weekday = """
@@ -731,10 +828,10 @@ ddataf = (ddataf.
 
 
 <dl>
-<dt>In [35]:</dt>
+<dt>In [39]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(ddataf) + 
+p = (gp.ggplot(ddataf) +
      gp.geom_bar(gp.aes_string(x='(weekday_submitted)', fill='Platform')) +
      gp.scale_fill_brewer(palette = 'Set1') +
      gp.scale_y_sqrt() +
@@ -748,6 +845,6 @@ display.Image(display_ggplot2(p, height=700))
 
 
 
-![png](potholes_files/potholes_65_0.png)
+![png](potholes_files/potholes_72_0.png)
 
 
