@@ -14,7 +14,7 @@
 </dd>
 </dl>
 
-----
+---
 
 - R code can be mixed with Python code
 - Cells with R code are prefixed with `%%R`
@@ -52,7 +52,7 @@ R.version
 
 
 
-----
+---
 
 
 <dl>
@@ -98,7 +98,7 @@ anova(glm.D93)
 
 
 
-----
+---
 
 ### Communicating with the outside world (Python)
 
@@ -139,7 +139,7 @@ result <- 2*pi
 </dd>
 </dl>
 
-----
+---
 
 # Data table
 
@@ -149,7 +149,7 @@ result <- 2*pi
   * a high-level data structure
   * common (in concept) across Python, R (and SQL, etc...)
 
-----
+---
 
 ## Reading from a CSV file
 
@@ -167,7 +167,7 @@ pdataf = pandas.read_csv(FILENAME)
 </dd>
 </dl>
 
-----
+---
 
 ### R "magic"
 
@@ -223,7 +223,7 @@ str(dataf)
 
 
 
-----
+---
 
 ### R from Python
 
@@ -242,7 +242,7 @@ utils = importr('utils')
 
 The Python object `utils` is a namespace: write `utils.` in a cell and hit `<tab>`.
 
-----
+---
 
 
 <dl>
@@ -269,7 +269,7 @@ print(dataf.colnames)
     
 
 
-----
+---
 
 # GGplot2 graphics
 
@@ -288,7 +288,7 @@ options(bitmapType="cairo")
 </dd>
 </dl>
 
-----
+---
 
 ### First in R:
 
@@ -314,7 +314,7 @@ print(p)
 ![png](potholes_files/potholes_24_0.png)
 
 
-----
+---
 
 ### Map:
 - column `Status` to visual dimension `x`.
@@ -337,7 +337,7 @@ print(p)
 ![png](potholes_files/potholes_26_0.png)
 
 
-----
+---
 
 ### Map:
 - column `Status` to visual dimension `x`.
@@ -361,7 +361,7 @@ print(p)
 ![png](potholes_files/potholes_28_0.png)
 
 
-----
+---
 
 ## Interlude: namespaces in R
 
@@ -384,7 +384,7 @@ print(p)
 ![png](potholes_files/potholes_30_0.png)
 
 
-----
+---
 
 ## R from Python
 
@@ -431,7 +431,7 @@ type(p)
 
 
 
-----
+---
 
 
 <dl>
@@ -446,7 +446,7 @@ dpi = png_formatter.for_type(ggplot2.GGPlot, display_png)
 </dd>
 </dl>
 
-----
+---
 
 
 <dl>
@@ -465,7 +465,7 @@ p
 
 
 
-----
+---
 
 
 <dl>
@@ -484,7 +484,7 @@ p + gp.theme_gray(base_size=20)
 
 
 
-----
+---
 
 
 <dl>
@@ -506,7 +506,7 @@ p
 
 
 
-----
+---
 
 
 <dl>
@@ -530,7 +530,7 @@ p
 
 
 
-----
+---
 
 
 <dl>
@@ -550,7 +550,6 @@ p + gp.scale_y_sqrt()
 
 
 ---
-...
 
 # dplyr
 
