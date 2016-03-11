@@ -15,7 +15,7 @@ RUN \
 # Update the repositories, install R and packages, and install Python packages
 RUN \
   apt-get update -qq && \
-  apt-get install -y r-base r-base-dev && \
+  apt-get install -y r-base r-base-dev ed && \
   rm -rf /var/lib/apt/lists/* && \
   R -e 'install.packages(c("dplyr", "hexbin", "ggplot2", "ggmap", "lme4"), \
                          repos="http://cran.cnr.Berkeley.edu")' && \
