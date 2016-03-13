@@ -1,8 +1,12 @@
 
+# POLYGLOT DATA ANALYSIS VISUALLY DEMONSTRATED WITH PYTHON AND R
+## Jupyter Days Boston - 2016
+### (Laurent Gautier)
+
 ## R "magic"
 
 - extension to the jupyter notebook
-- defined the "magic" `%%R` and `%R`
+- defines "magic": `%%R` and `%R`
 
 
 <dl>
@@ -34,21 +38,21 @@ R.version
 </dl>
 
 
-                   _                                                 
-    platform       x86_64-pc-linux-gnu                               
-    arch           x86_64                                            
-    os             linux-gnu                                         
-    system         x86_64, linux-gnu                                 
-    status         Under development (unstable)                      
-    major          3                                                 
-    minor          3.0                                               
-    year           2016                                              
-    month          03                                                
-    day            03                                                
-    svn rev        70270                                             
-    language       R                                                 
-    version.string R Under development (unstable) (2016-03-03 r70270)
-    nickname       Unsuffered Consequences                           
+                   _                                          
+    platform       x86_64-pc-linux-gnu                        
+    arch           x86_64                                     
+    os             linux-gnu                                  
+    system         x86_64, linux-gnu                          
+    status         Patched                                    
+    major          3                                          
+    minor          2.3                                        
+    year           2015                                       
+    month          12                                         
+    day            22                                         
+    svn rev        69809                                      
+    language       R                                          
+    version.string R version 3.2.3 Patched (2015-12-22 r69809)
+    nickname       Wooden Christmas-Tree                      
 
 
 
@@ -240,7 +244,9 @@ utils = importr('utils')
 </dd>
 </dl>
 
-The Python object `utils` is a namespace: write `utils.` in a cell and hit `<tab>`.
+The Python object "`utils`" is a namespace.
+
+Write `utils.` in a cell and hit <kbd>tab</kbd>.
 
 ---
 
@@ -283,7 +289,11 @@ Build graphics with
 <dd>
 <pre><code data-trim>
 %%R
+# makes graphics prettier on my Linux system.
+default_bitmapType <- getOption("bitmapType")
 options(bitmapType="cairo")
+# if issues with graphics, revert with
+# options(bitmapType=default_bitmapType)
 </code></pre>
 </dd>
 </dl>

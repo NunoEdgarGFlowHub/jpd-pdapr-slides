@@ -41,20 +41,27 @@
 	    <img alt="bilingual" src="img/bilingual.png" class="noborder">
 	  </section>
 	  <section>
+	    <h2>You<sup>*</sup> probably have already done polyglot data analysis</h2>
+
+	    (*: yes, you)
+	  </section>
+	  <section>
 	    <h2>Python and SQL</h2>
 	    <pre><code data-trim>
-cursor = dbcon.cursor()
 sql = """
 select value
 from measures
 where value > 0
 """
+
+cursor = dbcon.cursor()
 cursor.execute(sql)
 result=cursor.fetchall()
 	    </code></pre>
 	    <ul>
-	    <li>Hardly groundbreaking.</li>
-	    <li>That's polyglot data analysis though.</li>
+	    <li class="fragment">Hardly groundbreaking.</li>
+	    <li class="fragment">That's polyglot data analysis though.</li>
+	    <li class="fragment">Without SQL ?</li>
 	    </ul>
 	  </section>
 	  <section>
@@ -98,19 +105,19 @@ result = cursor.fetchall()
 		</tr>
 	      </tbody>
 	    </table>
-	    <h2>&#8681;</h2>
+	    <div class="fragment">
+	    <h1>&#8681;</h1>
 	    <pre><code data-trim>
 result = (Measure
           .select()
           .where(Measure.value > 0))
 	    </code></pre>
+	    <small>(example with SQLObject)</small>
+	    </div>
 	  </section>
 	  <section>
-	    <h1>Python ? R</h1>
-	    <h2 class="fragment">No more Python <i>vs</i> R</h2>
-	    <h2 class="fragment">$$Python + R$$</h2>
-	    <h2 class="fragment">$$Python \times R$$</h2>
-	    <h2 class="fragment">$$Python^R$$</h2>
+	    <h2>Python vs R ?</h2>
+	    <h1 class="fragment">Python<sup>R</sup> !</h1>
 
 	  </section>
 
@@ -132,7 +139,23 @@ result = (Measure
 	</section>
 	<section>
 	  <section>
-	    <a href="potholes.ipynb">Jupyter Notebook</a>
+	    <h2>Gentlemen, start your engines!</h2>
+	    <a href="https://github.com/lgautier/jpd-pdapr-slides/blob/gh-pages/potholes.ipynb">Jupyter Notebook</a>
+	    <hr/>
+	    <h3>The easy way:</h3>
+	    <pre><code data-trim>
+pwd=[set password here]
+docker run --rm -it -p 8888:8888 \
+            -v "$(pwd):/notebooks" rpy2/jpd-pdapr-slides
+	    </code></pre>
+	    Visit <a href="http://localhost:8888/">http://localhost:8888/</a>
+	    <sup>*</sup>
+	    <p>*:
+	       If docker-machine (Windows, OS X)
+	    <pre><code data-trim>
+	      docker-machine ip [MACHINE]
+	    </code></pre>
+	    </p>
 	  </section>
 	  <section data-markdown="potholes_tweaked.md">
 	  </section>
@@ -151,7 +174,7 @@ Reveal.initialize({
     progress: true,
 
     // Display the page number of the current slide
-    slideNumber: false,
+    slideNumber: true,
 
     // Push each slide change to the browser history
     history: false,
