@@ -1,7 +1,9 @@
 
+Note:
 # POLYGLOT DATA ANALYSIS VISUALLY DEMONSTRATED WITH PYTHON AND R
 ## Jupyter Days Boston - 2016
 ### (Laurent Gautier)
+
 
 ## R "magic"
 
