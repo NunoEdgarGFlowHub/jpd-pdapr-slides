@@ -1,10 +1,4 @@
 
-Note:
-# POLYGLOT DATA ANALYSIS VISUALLY DEMONSTRATED WITH PYTHON AND R
-## Jupyter Days Boston - 2016
-### (Laurent Gautier)
-
-
 ## R "magic"
 
 - extension to the jupyter notebook
@@ -118,13 +112,16 @@ FILENAME = "Pothole_Repair_Requests.csv"
 </dd>
 </dl>
 
+#### "`-i`": into R, "`-o`": out of R
+
 
 <dl>
 <dt>In [5]:</dt>
 <dd>
 <pre><code data-trim>
-%%R -i FILENAME
+%%R -i FILENAME -o result
 print(FILENAME)
+result <- 2*pi
 </code></pre>
 </dd>
 </dl>
@@ -139,11 +136,13 @@ print(FILENAME)
 <dt>In [6]:</dt>
 <dd>
 <pre><code data-trim>
-%%R -o result
-result <- 2*pi
+print(result)
 </code></pre>
 </dd>
 </dl>
+
+    [ 6.28318531]
+
 
 ---
 
@@ -154,6 +153,29 @@ result <- 2*pi
 - The "data table" is:
   * a high-level data structure
   * common (in concept) across Python, R (and SQL, etc...)
+
+---
+
+## Dataset
+
+<table>
+<tbody>
+<tr>
+  <td>
+  <ul>
+   <li>Cambridge nice for cyclists</li>
+   <li class="fragment">winter can be harsh</li>
+   <li class="fragment">Cambridge is awesome, the city has an "Open Data" portal.</li>
+   <li class="fragment">Today we shall obsess over potholes.</li>
+  </ul>
+  </td>
+  <td>
+     <a title="By David Shankbone (David Shankbone) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3ALarge_pot_hole_on_2nd_Avenue_in_New_York_City.JPG"><img width="512" alt="Large pot hole on 2nd Avenue in New York City" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Large_pot_hole_on_2nd_Avenue_in_New_York_City.JPG/512px-Large_pot_hole_on_2nd_Avenue_in_New_York_City.JPG"/></a>
+  </td>
+  </tr>
+  </tbody>
+  </table>
+<a href="https://data.cambridgema.gov/Public-Works/Pothole-Repair-Requests/h2y4-rf5c">https://data.cambridgema.gov/Public-Works/Pothole-Repair-Requests/h2y4-rf5c</a>
 
 ---
 
@@ -202,7 +224,9 @@ str(dataf)
 
 
 
-R has namespaces:
+---
+
+#### R has namespaces
 
 
 <dl>
@@ -281,9 +305,11 @@ print(dataf.colnames)
 
 # GGplot2 graphics
 
-Build graphics with
+Build graphics with:
 - "mappings": associate "columns" with visual dimensions
 - "layers"  : additive declarations to build a figure
+
+<hr>
 
 
 <dl>
@@ -323,7 +349,7 @@ print(p)
 </dl>
 
 
-![png](potholes_files/potholes_24_0.png)
+![png](potholes_files/potholes_25_0.png)
 
 
 ---
@@ -346,7 +372,7 @@ print(p)
 </dl>
 
 
-![png](potholes_files/potholes_26_0.png)
+![png](potholes_files/potholes_27_0.png)
 
 
 ---
@@ -370,7 +396,7 @@ print(p)
 </dl>
 
 
-![png](potholes_files/potholes_28_0.png)
+![png](potholes_files/potholes_29_0.png)
 
 
 ---
@@ -393,7 +419,7 @@ print(p)
 </dl>
 
 
-![png](potholes_files/potholes_30_0.png)
+![png](potholes_files/potholes_31_0.png)
 
 
 ---
@@ -411,6 +437,8 @@ p = ggplot2::ggplot(dataf) +
 </code></pre>
 </dd>
 </dl>
+
+<hr>
 
 
 <dl>
@@ -473,7 +501,7 @@ p
 
 
 
-![png](potholes_files/potholes_38_0.png)
+![png](potholes_files/potholes_40_0.png)
 
 
 
@@ -492,7 +520,7 @@ p + gp.theme_gray(base_size=20)
 
 
 
-![png](potholes_files/potholes_40_0.png)
+![png](potholes_files/potholes_42_0.png)
 
 
 
@@ -514,7 +542,7 @@ p
 
 
 
-![png](potholes_files/potholes_42_0.png)
+![png](potholes_files/potholes_44_0.png)
 
 
 
@@ -538,7 +566,7 @@ p
 
 
 
-![png](potholes_files/potholes_44_0.png)
+![png](potholes_files/potholes_46_0.png)
 
 
 
@@ -557,13 +585,15 @@ p + gp.scale_y_sqrt()
 
 
 
-![png](potholes_files/potholes_46_0.png)
+![png](potholes_files/potholes_48_0.png)
 
 
 
 ---
 
 # dplyr
+
+Manipulate data tables with (among others):
 
 - mutate
 - filter
@@ -577,7 +607,24 @@ p + gp.scale_y_sqrt()
 <dt>In [27]:</dt>
 <dd>
 <pre><code data-trim>
-next(dataf[5].iter_labels())
+from rpy2.robjects.lib import dplyr
+ddataf = dplyr.DataFrame(dataf)
+</code></pre>
+</dd>
+</dl>
+
+---
+
+## Column "Address"
+
+
+<dl>
+<dt>In [28]:</dt>
+<dd>
+<pre><code data-trim>
+col_i = ddataf.colnames.index('Address')
+first_address = next(ddataf[col_i].iter_labels())
+first_address
 </code></pre>
 </dd>
 </dl>
@@ -589,29 +636,27 @@ next(dataf[5].iter_labels())
 
 
 
----
-
-
-<dl>
-<dt>In [28]:</dt>
-<dd>
-<pre><code data-trim>
-from rpy2.robjects.lib import dplyr
-</code></pre>
-</dd>
-</dl>
-
----
-
 
 <dl>
 <dt>In [29]:</dt>
 <dd>
 <pre><code data-trim>
-ddataf = dplyr.DataFrame(dataf)
+s_pat_float = '[+-]?[0-9.]+'
+s_pat_coords = '.+\((%s), (%s)\)$' % (s_pat_float, s_pat_float)
+import re
+pat_coords = re.compile(s_pat_coords,
+                        flags=re.DOTALL)
+pat_coords.match(first_address).groups()
 </code></pre>
 </dd>
 </dl>
+
+
+
+
+    ('42.38675507400046', '-71.14068255199965')
+
+
 
 ---
 
@@ -620,11 +665,6 @@ ddataf = dplyr.DataFrame(dataf)
 <dt>In [30]:</dt>
 <dd>
 <pre><code data-trim>
-import re
-s_pat_float = '[+-]?[0-9.]+'
-s_pat_coords = '.+\((%s), (%s)\)$' % (s_pat_float, s_pat_float)
-pat_coords = re.compile(s_pat_coords,
-                        flags=re.DOTALL)
 from rpy2.robjects import NA_Real
 def extract_coords(address):
     m = pat_coords.match(address)
@@ -632,18 +672,8 @@ def extract_coords(address):
         return (NA_Real, NA_Real)
     else:
         return tuple(float(x) for x in m.groups())
-</code></pre>
-</dd>
-</dl>
 
----
-
-
-<dl>
-<dt>In [31]:</dt>
-<dd>
-<pre><code data-trim>
-extract_coords(next(ddataf[5].iter_labels()))
+extract_coords(next(ddataf[col_i].iter_labels()))
 </code></pre>
 </dd>
 </dl>
@@ -659,7 +689,7 @@ extract_coords(next(ddataf[5].iter_labels()))
 
 
 <dl>
-<dt>In [32]:</dt>
+<dt>In [31]:</dt>
 <dd>
 <pre><code data-trim>
 from rpy2.robjects.vectors import FloatVector
@@ -671,12 +701,13 @@ globalenv['extract_lat'] = \
 globalenv['extract_long'] = \
     lambda v: FloatVector(tuple(extract_coords(x)[1] for x in v))
 
-ddataf = (ddataf.
-          mutate(lat='extract_lat(as.character(Address))',
-                 long='extract_long(as.character(Address))',
-                 date_submitted='as.POSIXct(Date.Submitted, format="%m/%d/%Y %H:%M:%S")',
-                 date_completed='as.POSIXct(Date.Completed, format="%m/%d/%Y %H:%M:%S")').
-          mutate(days_to_fix='as.numeric(date_completed - date_submitted, unit="days")'))
+ddataf = \
+    (ddataf.
+     mutate(lat='extract_lat(as.character(Address))',
+            long='extract_long(as.character(Address))',
+            date_submit='as.POSIXct(Date.Submitted, format="%m/%d/%Y %H:%M:%S")',
+            date_complete='as.POSIXct(Date.Completed, format="%m/%d/%Y %H:%M:%S")').
+     mutate(days_to_fix='as.numeric(date_complete - date_submit, unit="days")'))
 </code></pre>
 </dd>
 </dl>
@@ -685,7 +716,7 @@ ddataf = (ddataf.
 
 
 <dl>
-<dt>In [33]:</dt>
+<dt>In [32]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf) +
@@ -701,7 +732,7 @@ p
 
 
 
-![png](potholes_files/potholes_60_0.png)
+![png](potholes_files/potholes_59_0.png)
 
 
 
@@ -709,7 +740,7 @@ p
 
 
 <dl>
-<dt>In [34]:</dt>
+<dt>In [33]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
@@ -726,7 +757,7 @@ p
 
 
 
-![png](potholes_files/potholes_62_0.png)
+![png](potholes_files/potholes_61_0.png)
 
 
 
@@ -734,7 +765,7 @@ p
 
 
 <dl>
-<dt>In [35]:</dt>
+<dt>In [34]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"',
@@ -751,7 +782,7 @@ p
 
 
 
-![png](potholes_files/potholes_64_0.png)
+![png](potholes_files/potholes_63_0.png)
 
 
 
@@ -759,7 +790,7 @@ p
 
 
 <dl>
-<dt>In [36]:</dt>
+<dt>In [35]:</dt>
 <dd>
 <pre><code data-trim>
 dtf_grp_r = 'cut(days_to_fix, c(0,1,5,30,60,1500))'
@@ -778,7 +809,7 @@ p
 
 
 
-![png](potholes_files/potholes_66_0.png)
+![png](potholes_files/potholes_65_0.png)
 
 
 
@@ -786,11 +817,11 @@ p
 
 
 <dl>
-<dt>In [37]:</dt>
+<dt>In [36]:</dt>
 <dd>
 <pre><code data-trim>
 p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
-     gp.geom_histogram(gp.aes_string(x='date_completed'), bins=30) +
+     gp.geom_histogram(gp.aes_string(x='date_complete'), bins=30) +
      gp.facet_grid('~Status') +
      gp.theme_gray(base_size=15) +
      gp.theme(**{'legend.position': 'top'}))
@@ -802,7 +833,32 @@ p
 
 
 
-![png](potholes_files/potholes_68_0.png)
+![png](potholes_files/potholes_67_0.png)
+
+
+
+---
+
+
+<dl>
+<dt>In [37]:</dt>
+<dd>
+<pre><code data-trim>
+p = (gp.ggplot(ddataf.filter('Status %in% c("Closed", "Resolved")')) +
+     gp.geom_hex(gp.aes_string(x='date_submit', y='date_complete')) +
+     gp.facet_grid('~Status') +
+     gp.scale_fill_continuous(trans="log") +
+     gp.theme(**{'legend.position': 'top',
+                 'axis.text.x': gp.element_text(angle=45, hjust=.5)}))
+p
+</code></pre>
+</dd>
+</dl>
+
+
+
+
+![png](potholes_files/potholes_69_0.png)
 
 
 
@@ -813,44 +869,19 @@ p
 <dt>In [38]:</dt>
 <dd>
 <pre><code data-trim>
-p = (gp.ggplot(ddataf.filter('Status %in% c("Closed", "Resolved")')) +
-     gp.geom_hex(gp.aes_string(x='date_submitted', y='date_completed')) +
-     gp.facet_grid('~Status') +
-     gp.scale_fill_continuous(trans="log") +
-     gp.theme(**{'legend.position': 'top',
-                 'axis.text.x': gp.element_text(angle = 45, hjust = .5)}))
-p
-</code></pre>
-</dd>
-</dl>
-
-
-
-
-![png](potholes_files/potholes_70_0.png)
-
-
-
----
-
-
-<dl>
-<dt>In [39]:</dt>
-<dd>
-<pre><code data-trim>
 extract_weekday = """
-factor(weekdays(date_submitted),
+factor(weekdays(date_submit),
        levels=c("Sunday", "Monday",
                 "Tuesday", "Wednesday", "Thursday",
                 "Friday", "Saturday"))
 """
 # transition iPhone / iOS
 ddataf = (ddataf.
-          mutate(year_submitted='format(date_submitted, format="%Y")',
-                 month_submitted='format(date_submitted, format="%m")',
-                 weeknum_submitted='as.numeric( format(date_submitted+3, "%U"))',
-                 weekday_submitted=(extract_weekday)).
-	  filter('year_submitted >= 2012',
+          mutate(year_submit='format(date_submit, format="%Y")',
+                 month_submit='format(date_submit, format="%m")',
+                 weeknum_submit='as.numeric(format(date_submit+3, "%U"))',
+                 weekday_submit=(extract_weekday)).
+	  filter('year_submit >= 2012',
                  'Platform != ""'))
 </code></pre>
 </dd>
@@ -860,16 +891,16 @@ ddataf = (ddataf.
 
 
 <dl>
-<dt>In [40]:</dt>
+<dt>In [39]:</dt>
 <dd>
 <pre><code data-trim>
 from IPython.core import display
 p = (gp.ggplot(ddataf) +
-     gp.geom_bar(gp.aes_string(x='(weekday_submitted)', fill='Platform')) +
+     gp.geom_bar(gp.aes_string(x='(weekday_submit)', fill='Platform')) +
      gp.scale_fill_brewer(palette = 'Set1') +
      gp.scale_y_sqrt() +
      gp.theme(**{'axis.text.x': gp.element_text(angle = 90, hjust = 1)}) +
-     gp.facet_grid('month_submitted ~ year_submitted'))
+     gp.facet_grid('month_submit ~ year_submit'))
 display.Image(display_png(p, height=700))
 </code></pre>
 </dd>
@@ -878,6 +909,6 @@ display.Image(display_png(p, height=700))
 
 
 
-![png](potholes_files/potholes_74_0.png)
+![png](potholes_files/potholes_73_0.png)
 
 

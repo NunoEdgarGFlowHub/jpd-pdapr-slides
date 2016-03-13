@@ -19,9 +19,7 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   R -e 'install.packages(c("dplyr", "hexbin", "ggplot2", "ggmap", "lme4"), \
                          repos="http://cran.cnr.Berkeley.edu")' && \
-  pip2 install pip --upgrade \
   pip2 install numpy pandas sphinx jinja2 singledispatch && \
-  pip3 install pip --upgrade \
   pip3 install numpy pandas sphinx jinja2
 
 COPY Pothole_Repair_Requests.csv /notebooks/
