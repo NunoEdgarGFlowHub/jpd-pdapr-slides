@@ -616,7 +616,7 @@ ddataf = dplyr.DataFrame(dataf)
 
 ---
 
-## Column "Address"
+## Extracting the coordinates from column "Address"
 
 
 <dl>
@@ -660,6 +660,8 @@ pat_coords.match(first_address).groups()
 
 
 ---
+
+## Final function
 
 
 <dl>
@@ -743,6 +745,8 @@ p
 
 
 ---
+
+### Strings are R code
 
 
 <dl>
