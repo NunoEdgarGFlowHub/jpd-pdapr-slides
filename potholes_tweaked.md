@@ -112,7 +112,8 @@ FILENAME = "Pothole_Repair_Requests.csv"
 </dd>
 </dl>
 
-#### "`-i`": into R, "`-o`": out of R
+- "`-i`": into R
+- "`-o`": out of R
 
 
 <dl>
@@ -163,7 +164,7 @@ print(result)
 <tr>
   <td>
   <ul>
-   <li>Cambridge nice for cyclists</li>
+   <li>Cambridge nice for cyclists (picture's from NYC)</li>
    <li class="fragment">winter can be harsh</li>
    <li class="fragment">Cambridge is awesome, the city has an "Open Data" portal.</li>
    <li class="fragment">Today we shall obsess over potholes.</li>
@@ -686,6 +687,7 @@ extract_coords(next(ddataf[col_i].iter_labels()))
 
 
 ---
+
 ## Python and R entwinned
 
 
