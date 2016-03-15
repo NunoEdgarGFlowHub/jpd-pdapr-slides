@@ -349,8 +349,14 @@ print(p)
 </dd>
 </dl>
 
+    /home/laurent/Desktop/software/python/py35_env/lib/python3.5/site-packages/rpy2-2.8.0.dev0-py3.5-linux-x86_64.egg/rpy2/robjects/functions.py:106: UserWarning: Need help? Try the ggplot2 mailing list:
+    http://groups.google.com/group/ggplot2.
+    
+      res = super(Function, self).__call__(*new_args, **new_kwargs)
 
-![png](potholes_files/potholes_25_0.png)
+
+
+![png](potholes_files/potholes_25_1.png)
 
 
 ---
@@ -596,10 +602,11 @@ p + gp.scale_y_sqrt()
 
 Manipulate data tables with (among others):
 
-- mutate
-- filter
-- group_by # compute weekly statistics
-- summarize
+| **mutate**    | modify/add column        |
+| **filter**    | filter rows              |
+| **select**    | select columns           |
+| **group_by**  | group rows               |
+| **summarize** | summarize groups of rows |
 
 ---
 
@@ -616,11 +623,83 @@ ddataf = dplyr.DataFrame(dataf)
 
 ---
 
-## Extracting the coordinates from column "Address"
+### Strings as R code
 
 
 <dl>
 <dt>In [28]:</dt>
+<dd>
+<pre><code data-trim class="python">
+ddataf = \
+    (ddataf.
+     mutate(date_submit='as.POSIXct(Date.Submitted, ' + \
+	                '           format="%m/%d/%Y %H:%M:%S")',
+            date_complete='as.POSIXct(Date.Completed, ' + \
+	                '           format="%m/%d/%Y %H:%M:%S")').
+     mutate(days_to_fix='as.numeric(date_complete - date_submit, ' +\
+                                    'unit="days")'))
+</code></pre>
+</dd>
+</dl>
+
+---
+
+
+<dl>
+<dt>In [29]:</dt>
+<dd>
+<pre><code data-trim class="python">
+dataf_plot = ddataf.filter('Status == "Closed"')
+p = (gp.ggplot(dataf_plot) +
+     gp.geom_density(gp.aes_string(x='days_to_fix')) +
+     gp.facet_grid('~Status') +
+     gp.scale_x_sqrt() +
+     gp.theme_gray(base_size=15) +
+     gp.theme(**{'legend.position': 'top'}))
+p
+</code></pre>
+</dd>
+</dl>
+
+
+
+
+![png](potholes_files/potholes_54_0.png)
+
+
+
+---
+
+
+<dl>
+<dt>In [30]:</dt>
+<dd>
+<pre><code data-trim class="python">
+p = (gp.ggplot(ddataf.filter('Status == "Closed"',
+                             'days_to_fix < 100')) +
+     gp.geom_histogram(gp.aes_string(x='days_to_fix'), bins=100) +
+     gp.facet_grid('~Status') +
+     gp.theme_gray(base_size=15) +
+     gp.theme(**{'legend.position': 'top'}))
+p
+</code></pre>
+</dd>
+</dl>
+
+
+
+
+![png](potholes_files/potholes_56_0.png)
+
+
+
+---
+
+## Extract coordinates from column "Address"
+
+
+<dl>
+<dt>In [31]:</dt>
 <dd>
 <pre><code data-trim class="python">
 col_i = ddataf.colnames.index('Address')
@@ -639,7 +718,7 @@ first_address
 
 
 <dl>
-<dt>In [29]:</dt>
+<dt>In [32]:</dt>
 <dd>
 <pre><code data-trim class="python">
 s_pat_float = '[+-]?[0-9.]+'
@@ -665,7 +744,7 @@ pat_coords.match(first_address).groups()
 
 
 <dl>
-<dt>In [30]:</dt>
+<dt>In [33]:</dt>
 <dd>
 <pre><code data-trim class="python">
 from rpy2.robjects import NA_Real
@@ -694,7 +773,7 @@ extract_coords(next(ddataf[col_i].iter_labels()))
 
 
 <dl>
-<dt>In [31]:</dt>
+<dt>In [34]:</dt>
 <dd>
 <pre><code data-trim class="python">
 from rpy2.robjects.vectors import FloatVector
@@ -709,92 +788,10 @@ globalenv['extract_long'] = \
 ddataf = \
     (ddataf.
      mutate(lat='extract_lat(as.character(Address))',
-            long='extract_long(as.character(Address))',
-            date_submit='as.POSIXct(Date.Submitted, ' + \
-	                '           format="%m/%d/%Y %H:%M:%S")',
-            date_complete='as.POSIXct(Date.Completed, ' + \
-	                '           format="%m/%d/%Y %H:%M:%S")').
-     mutate(days_to_fix='as.numeric(date_complete - date_submit, ' +\
-                                    'unit="days")'))
+            long='extract_long(as.character(Address))'))
 </code></pre>
 </dd>
 </dl>
-
----
-
-
-<dl>
-<dt>In [32]:</dt>
-<dd>
-<pre><code data-trim class="python">
-p = (gp.ggplot(ddataf) +
-     gp.geom_hex(gp.aes_string(x='lat', y='long'), bins=50) +
-     gp.scale_fill_continuous(trans="sqrt") +
-     gp.theme_gray(base_size=15) +
-     gp.facet_grid('~Status'))
-p
-</code></pre>
-</dd>
-</dl>
-
-
-
-
-![png](potholes_files/potholes_59_0.png)
-
-
-
----
-
-### Strings are R code
-
-
-<dl>
-<dt>In [33]:</dt>
-<dd>
-<pre><code data-trim class="python">
-p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
-     gp.geom_density(gp.aes_string(x='days_to_fix')) +
-     gp.facet_grid('~Status') +
-     gp.scale_x_sqrt() +
-     gp.theme_gray(base_size=15) +
-     gp.theme(**{'legend.position': 'top'}))
-p
-</code></pre>
-</dd>
-</dl>
-
-
-
-
-![png](potholes_files/potholes_61_0.png)
-
-
-
----
-
-
-<dl>
-<dt>In [34]:</dt>
-<dd>
-<pre><code data-trim class="python">
-p = (gp.ggplot(ddataf.filter('Status == "Closed"',
-                             'days_to_fix < 100')) +
-     gp.geom_histogram(gp.aes_string(x='days_to_fix'), bins=100) +
-     gp.facet_grid('~Status') +
-     gp.theme_gray(base_size=15) +
-     gp.theme(**{'legend.position': 'top'}))
-p
-</code></pre>
-</dd>
-</dl>
-
-
-
-
-![png](potholes_files/potholes_63_0.png)
-
-
 
 ---
 
@@ -803,14 +800,11 @@ p
 <dt>In [35]:</dt>
 <dd>
 <pre><code data-trim class="python">
-dtf_grp_r = 'cut(days_to_fix, c(0,1,5,30,60,1500))'
-p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
-     gp.geom_point(gp.aes_string(x='lat', y='long',
-                                 color=dtf_grp_r),
-                  size=1) +
-     gp.facet_grid('~Status') +
-     gp.theme_dark(base_size=15) +
-     gp.scale_color_brewer("Days to fix"))
+p = (gp.ggplot(ddataf) +
+     gp.geom_hex(gp.aes_string(x='lat', y='long'), bins=50) +
+     gp.scale_fill_continuous(trans="sqrt") +
+     gp.theme_gray(base_size=15) +
+     gp.facet_grid('~Status'))
 p
 </code></pre>
 </dd>
@@ -830,11 +824,14 @@ p
 <dt>In [36]:</dt>
 <dd>
 <pre><code data-trim class="python">
+dtf_grp_r = 'cut(days_to_fix, c(0,1,5,30,60,1500))'
 p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
-     gp.geom_histogram(gp.aes_string(x='date_complete'), bins=30) +
+     gp.geom_point(gp.aes_string(x='lat', y='long',
+                                 color=dtf_grp_r),
+                  size=1) +
      gp.facet_grid('~Status') +
-     gp.theme_gray(base_size=15) +
-     gp.theme(**{'legend.position': 'top'}))
+     gp.theme_dark(base_size=15) +
+     gp.scale_color_brewer("Days to fix"))
 p
 </code></pre>
 </dd>
@@ -854,12 +851,11 @@ p
 <dt>In [37]:</dt>
 <dd>
 <pre><code data-trim class="python">
-p = (gp.ggplot(ddataf.filter('Status %in% c("Closed", "Resolved")')) +
-     gp.geom_hex(gp.aes_string(x='date_submit', y='date_complete')) +
+p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
+     gp.geom_histogram(gp.aes_string(x='date_complete'), bins=30) +
      gp.facet_grid('~Status') +
-     gp.scale_fill_continuous(trans="log") +
-     gp.theme(**{'legend.position': 'top',
-                 'axis.text.x': gp.element_text(angle=45, hjust=.5)}))
+     gp.theme_gray(base_size=15) +
+     gp.theme(**{'legend.position': 'top'}))
 p
 </code></pre>
 </dd>
@@ -879,6 +875,31 @@ p
 <dt>In [38]:</dt>
 <dd>
 <pre><code data-trim class="python">
+p = (gp.ggplot(ddataf.filter('Status %in% c("Closed", "Resolved")')) +
+     gp.geom_hex(gp.aes_string(x='date_submit', y='date_complete')) +
+     gp.facet_grid('~Status') +
+     gp.scale_fill_continuous(trans="log") +
+     gp.theme(**{'legend.position': 'top',
+                 'axis.text.x': gp.element_text(angle=45, hjust=.5)}))
+p
+</code></pre>
+</dd>
+</dl>
+
+
+
+
+![png](potholes_files/potholes_71_0.png)
+
+
+
+---
+
+
+<dl>
+<dt>In [39]:</dt>
+<dd>
+<pre><code data-trim class="python">
 extract_weekday = """
 factor(weekdays(date_submit),
        levels=c("Sunday", "Monday",
@@ -891,7 +912,7 @@ ddataf = (ddataf.
                  month_submit='format(date_submit, format="%m")',
                  weeknum_submit='as.numeric(format(date_submit+3, "%U"))',
                  weekday_submit=(extract_weekday)).
-	  filter('year_submit >= 2012',
+                 filter('year_submit >= 2012',
                  'Platform != ""'))
 </code></pre>
 </dd>
@@ -901,7 +922,7 @@ ddataf = (ddataf.
 
 
 <dl>
-<dt>In [39]:</dt>
+<dt>In [40]:</dt>
 <dd>
 <pre><code data-trim class="python">
 from IPython.core import display
@@ -919,6 +940,35 @@ display.Image(display_png(p, height=700))
 
 
 
-![png](potholes_files/potholes_73_0.png)
+![png](potholes_files/potholes_75_0.png)
 
+
+
+---
+
+
+<dl>
+<dt>In [41]:</dt>
+<dd>
+<pre><code data-trim class="python">
+by_weekday = ddataf.group_by('weekday_submit')
+n_platforms_weekday = (by_weekday.
+                       summarise(n='length(unique(Platform))'))
+print(n_platforms_weekday)
+</code></pre>
+</dd>
+</dl>
+
+    Source: local data frame [7 x 2]
+    
+      weekday_submit     n
+              (fctr) (int)
+    1         Sunday     4
+    2         Monday     5
+    3        Tuesday     5
+    4      Wednesday     5
+    5       Thursday     5
+    6         Friday     4
+    7       Saturday     4
+    
 
