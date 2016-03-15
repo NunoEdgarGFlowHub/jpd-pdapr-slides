@@ -349,14 +349,8 @@ print(p)
 </dd>
 </dl>
 
-    /home/laurent/Desktop/software/python/py35_env/lib/python3.5/site-packages/rpy2-2.8.0.dev0-py3.5-linux-x86_64.egg/rpy2/robjects/functions.py:106: UserWarning: Need help? Try the ggplot2 mailing list:
-    http://groups.google.com/group/ggplot2.
-    
-      res = super(Function, self).__call__(*new_args, **new_kwargs)
 
-
-
-![png](potholes_files/potholes_25_1.png)
+![png](potholes_files/potholes_25_0.png)
 
 
 ---
