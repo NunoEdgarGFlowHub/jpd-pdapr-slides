@@ -304,7 +304,7 @@ print(dataf.colnames)
 
 ---
 
-# `ggplot2` graphics
+# ggplot2 graphics
 
 Build graphics with:
 - "mappings": associate "columns" with visual dimensions
@@ -312,8 +312,7 @@ Build graphics with:
 
 ---
 
-## `ggplot2` graphics
-### (visually)
+### ggplot2 graphics
 
 <img src="http://lgautier.github.io/jpd-pdapr-slides/img/gg_mapping.png" alt="ggplot2 data, aesthetics, and plot">
 
@@ -356,14 +355,8 @@ print(p)
 </dd>
 </dl>
 
-    /home/laurent/Desktop/software/python/py35_env/lib/python3.5/site-packages/rpy2-2.8.0.dev0-py3.5-linux-x86_64.egg/rpy2/robjects/functions.py:106: UserWarning: Find out what's changed in ggplot2 at
-    http://github.com/hadley/ggplot2/releases.
-    
-      res = super(Function, self).__call__(*new_args, **new_kwargs)
 
-
-
-![png](potholes_files/potholes_25_1.png)
+![png](potholes_files/potholes_25_0.png)
 
 
 ---
