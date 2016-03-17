@@ -602,11 +602,15 @@ p + gp.scale_y_sqrt()
 
 Manipulate data tables with (among others):
 
-| **mutate**    | modify/add column        |
-| **filter**    | filter rows              |
-| **select**    | select columns           |
-| **group_by**  | group rows               |
-| **summarize** | summarize groups of rows |
+<table>
+<tbody>
+<tr><td><b>mutate</b></td><td>modify/add column</td></tr>
+<tr><td><b>filter</b></td><td>filter rows</td></tr>
+<tr><td><b>select</b></td><td>select columns</td></tr>
+<tr><td><b>group_by</b></td><td>group rows</td></tr>
+<tr><td><b>summarize</b></td><td>summarize groups of rows</td></tr>
+</tbody>
+</table>
 
 ---
 
