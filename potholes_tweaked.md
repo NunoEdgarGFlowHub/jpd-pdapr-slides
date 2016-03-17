@@ -112,8 +112,12 @@ FILENAME = "Pothole_Repair_Requests.csv"
 </dd>
 </dl>
 
-- "`-i`": into R
-- "`-o`": out of R
+<table>
+<tbody>
+<tr><td><b>"`-i`":</b></td><td>into R</td></tr>
+<tr><td><b>"`-o`":</b></td><td>out of R</td></tr>
+</tbody>
+</table>
 
 
 <dl>
