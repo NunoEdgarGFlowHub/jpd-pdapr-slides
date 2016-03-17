@@ -165,8 +165,27 @@ result = (Measure
 	<section>
 	  <section>
 	    <h2>Gentlemen, start your engines!</h2>
-	    <a href="https://github.com/lgautier/jpd-pdapr-slides/blob/gh-pages/notebooks/potholes.ipynb">Jupyter Notebook</a>
-	    <hr/>
+            <table>
+            <tbody>
+            <tr>
+            <td style="border-right: solid 1px">
+	    <a href="https://github.com/lgautier/jpd-pdapr-slides/blob/gh-pages/notebooks/potholes.ipynb">
+              Jupyter Notebook
+            </a>
+            </td>
+            <td>
+	    <a href="Pothole_Repair_Requests.csv">pothole data</a>
+	    <sub>
+              <small>
+              (source: <a href="https://data.cambridgema.gov">https://data.cambridgema.gov</a>)
+              </small>
+            </sub>
+            </td>
+            </tr>
+            </tbody>
+            </table>
+	    <br>
+            <div class="fragment" style="border: solid 3px; -moz-border-radius: 15px;border-radius: 15px;">
 	    <h3>The easy way:</h3>
 	    <pre><code data-trim>
 docker run --rm -it -p 8888:8888 \
@@ -174,12 +193,14 @@ docker run --rm -it -p 8888:8888 \
 	    </code></pre>
 	    Visit <a href="http://localhost:8888/">http://localhost:8888/</a>
 	    <sup>*</sup>
+            <hr>
 	    <p>*:
 	       If docker-machine (Windows, OS X), the address is:
 	    <pre><code data-trim>
 	      docker-machine ip [MACHINE]
 	    </code></pre>
 	    </p>
+          </div>
 	  </section>
 	  <section data-markdown="potholes_tweaked.md">
 	  </section>
