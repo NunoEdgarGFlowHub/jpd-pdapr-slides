@@ -328,11 +328,13 @@ Build graphics with:
 <dd>
 <pre><code data-trim class="python">
 %%R
-# makes graphics prettier on my Linux system.
-default_bitmapType <- getOption("bitmapType")
-options(bitmapType="cairo")
-# if issues with graphics, revert with
-# options(bitmapType=default_bitmapType)
+if (.Platform$OS.type == "unix") {
+  # makes graphics prettier on my Linux system.
+  default_bitmapType <- getOption("bitmapType")
+  options(bitmapType="cairo")
+  # if issues with graphics, revert with
+  # options(bitmapType=default_bitmapType)
+}
 </code></pre>
 </dd>
 </dl>
@@ -809,7 +811,7 @@ ddataf = \
 <dd>
 <pre><code data-trim class="python">
 p = (gp.ggplot(ddataf) +
-     gp.geom_hex(gp.aes_string(x='lat', y='long'), bins=50) +
+     gp.geom_hex(gp.aes_string(y='lat', x='long'), bins=50) +
      gp.scale_fill_continuous(trans="sqrt") +
      gp.theme_gray(base_size=15) +
      gp.facet_grid('~Status'))
@@ -834,7 +836,7 @@ p
 <pre><code data-trim class="python">
 dtf_grp_r = 'cut(days_to_fix, c(0,1,5,30,60,1500))'
 p = (gp.ggplot(ddataf.filter('Status == "Closed"')) +
-     gp.geom_point(gp.aes_string(x='lat', y='long',
+     gp.geom_point(gp.aes_string(y='lat', x='long',
                                  color=dtf_grp_r),
                   size=1) +
      gp.facet_grid('~Status') +
