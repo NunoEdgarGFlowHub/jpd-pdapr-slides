@@ -25,6 +25,7 @@ RUN \
 COPY Pothole_Repair_Requests.csv /notebooks/
 COPY notebooks/potholes.ipynb /notebooks/
 
+# Run dev version of rpy2
 RUN \
   pip2 install https://bitbucket.org/rpy2/rpy2/get/default.tar.gz && \
   pip3 install https://bitbucket.org/rpy2/rpy2/get/default.tar.gz
