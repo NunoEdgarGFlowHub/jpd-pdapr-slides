@@ -18,7 +18,6 @@ RUN \
   apt-get install -y r-base r-base-dev && \
   rm -rf /var/lib/apt/lists/* && \
   R -e 'install.packages(c("dplyr", "hexbin", "ggplot2", "ggmap", "lme4"), \
-                         noCache = TRUE, \
                          repos="http://cran.cnr.Berkeley.edu")' && \
   pip2 --no-cache-dir install numpy pandas sphinx jinja2 singledispatch && \
   pip3 --no-cache-dir install numpy pandas sphinx jinja2 && \
