@@ -17,7 +17,7 @@ RUN \
   apt-get update -qq && \
   apt-get install -y r-base r-base-dev && \
   rm -rf /var/lib/apt/lists/* && \
-  R -e 'install.packages(c("dplyr", "hexbin", "ggplot2", "ggmap", "lme4"), \
+  R -e 'install.packages(c("broom", "dplyr", "hexbin", "GGally", "ggmap", "glmnet", "ggplot2", "ggRandomForests", "gridExtra", "lme4", "mapproj", "maps", "nlme", "quantreg", "randomForestSRC", "svglite", "tidyr"), \
                          repos="http://cran.cnr.Berkeley.edu")' && \
   pip2 --no-cache-dir install numpy pandas sphinx jinja2 singledispatch && \
   pip3 --no-cache-dir install numpy pandas sphinx jinja2 && \
