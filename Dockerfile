@@ -19,13 +19,16 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   R -e 'install.packages(c("dplyr", "hexbin", "ggplot2", "ggmap", "lme4"), \
                          repos="http://cran.cnr.Berkeley.edu")' && \
-  pip2 install numpy pandas sphinx jinja2 singledispatch && \
-  pip3 install numpy pandas sphinx jinja2
+  pip2 --no-cache-dir install numpy pandas sphinx jinja2 singledispatch && \
+  pip3 --no-cache-dir install numpy pandas sphinx jinja2 && \
+  rm -rf /root/.cache
 
 COPY Pothole_Repair_Requests.csv /notebooks/
 COPY notebooks/potholes.ipynb /notebooks/
 
 # Run dev version of rpy2
 RUN \
-  pip2 install https://bitbucket.org/rpy2/rpy2/get/default.tar.gz && \
-  pip3 install https://bitbucket.org/rpy2/rpy2/get/default.tar.gz
+  pip2 --no-cache-dir install \
+        https://bitbucket.org/rpy2/rpy2/get/default.tar.gz && \
+  pip3 --no-cache-dir install \
+        https://bitbucket.org/rpy2/rpy2/get/default.tar.gz
